@@ -147,7 +147,24 @@ python -m indeed.models
 python -m indeed
 ```
 
+You should be able to get some similar output
+```shell
+                   jobID      salary
+0       JOB1362685407687  116.152511
+1       JOB1362685407688  114.184514
+2       JOB1362685407689  171.431412
+3       JOB1362685407690  107.281553
+4       JOB1362685407691  106.055556
+...                  ...         ...
+999995  JOB1362686407682  164.875000
+999996  JOB1362686407683  116.152511
+999997  JOB1362686407684   55.979899
+999998  JOB1362686407685  169.072727
+999999  JOB1362686407686  103.078125
+
+```
+
 ### Docker
 ```shell
-cd scripts && ./build && ./docker
+cd scripts && ./run
 ```

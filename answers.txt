@@ -1,0 +1,50 @@
+1. How long did it take you to solve the problem?
+>> In total it took me 3 days, ~5h a day so less than 20h.
+
+2. What software language and libraries did you use to solve the problem? Why did you
+choose these languages/libraries?
+>> I used python because it is my main programming language and all the libraries I needed where available.
+
+3. What steps did you take to prepare the data for the project? Was any cleaning necessary?
+>> I did z-normalize all the dataset. The dataset was already clean (some null values are present but they don't impact the performance of the model). 
+
+4. 
+a) What machine learning method did you apply?
+>> I used a regression tree and did optimize the tree depths and list of features to train the model over 1000 experiments.
+
+b) Why did you choose this method?
+>> From the prelimiar data analysis, we can observe an important standard deviation on all input features. 
+This suggests that the features space should be partitioned into denser regions in order to reduce the variance.
+
+c) What other methods did you consider?
+>> Ensemble methods and genetics algorithms. I didn't have enough time to apply those method but they would have regularized the model output.
+
+
+5. Describe how the machine learning algorithm that you chose works.
+>> A regression tree basically split the features space into subregions.  The idea behind this is to build blocks in the space in which it is each to regress the data points. Once trained, when a new data point comes the tree select the branch in which the condition of the input are respected and output the leaf value.
+
+6. Was any encoding or transformation of features necessary? If so, what encoding/transformation did you use?
+>> I did z-normalize all the dataset, converting categorical features into numerical ones. In this case it didn't have an important impact but it is good practice since avoids features saturation in the models.
+
+
+7. Which features had the greatest impact on salary? How did you identify these to be
+most significant? Which features had the least impact on salary? How did you identify
+these?
+>> Since a univariate analysis of the correlation between the input features and the output isn't sufficient I did extract the list of significant features by doing a grid search. In the top list of models I trained  ['companyId', 'degree', 'industry', 'jobType', 'major', 'milesFromMetropolis', 'yearsExperience'] was always selected. Therefore they are the most significant features in the sense that they lead to the best results in evaluation. 
+However by analysing the features separately we can see that 'yearsExperience' has a positive correlation with the salary at 0.37 and that 'company_id' has a quasi null correlation with the salary. Therefore we can say that 'yearsExperience' has the most impact on the salary and that 'company_id' has the least impact on it.
+
+
+8. How did you train your model? During training, what issues concerned you?
+>> I used a personal library gnutools-python in order the distribute the grid search for the hyperparameters. I have mainly been concerned about the metric to use and the readability of the code.
+
+
+9. 
+a) Please estimate the RMSE that your model will achieve on the test dataset.
+>> I would estimate that the RMSE would be around 420.
+
+b) How did you create this estimate?
+>> From the training set I have splitted the dataset in a 70/30 partition and it the best model achieved an rmse=420 in dev. So it the underlying function that generated the training set is the same in test it should be similar.
+
+10. What metrics, other than RMSE, would be useful for assessing the accuracy of salary
+estimates? Why?
+>> When I did the grid seach I used the r2 score. I prefer this metric because it gives an estimate of how well model perform compare to a basic estimator (like mean).  
