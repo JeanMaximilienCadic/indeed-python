@@ -1,0 +1,35 @@
+features:
+  cat   : ["companyId", "jobType", "degree", "major", "industry"]
+  num   : ["yearsExperience", "milesFromMetropolis"]
+  y     : ["salary"]
+  best  : ['companyId', 'degree', 'industry', 'jobType', 'major', 'milesFromMetropolis', 'yearsExperience']
+
+etl:
+  xtrain_csv  : "/FileStore/indeed/landing/train/train_features.csv"
+  ytrain_csv  : "/FileStore/indeed/landing/train/train_salaries.csv"
+  output_csv  : "/FileStore/indeed/landing/gold/indeed_training_data.csv"
+  x:
+    mu:
+      companyId           : 31.027123
+      jobType             : 3.50532
+      degree              : 2.061605
+      major               : 2.581721
+      industry            : 2.998658
+      yearsExperience     : 11.992386
+      milesFromMetropolis : 49.52926
+    std:
+      companyId           : 18.20198897525415
+      jobType             : 2.2918099724874548
+      degree              : 1.4343423166430256
+      major               : 2.3988183408687767
+      industry            : 1.9995544996959191
+      yearsExperience     : 7.212390868885715
+      milesFromMetropolis : 28.877732628720043
+  y:
+    mu  : 116.06182
+    std : 38.71794
+
+
+models:
+  regression_tree :
+    max_depth: 13

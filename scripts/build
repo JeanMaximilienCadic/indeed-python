@@ -1,0 +1,5 @@
+#!/bin/sh
+
+# Compile indeed
+cd ../
+python setup.py bdist_wheel && rm -r build *.egg-info

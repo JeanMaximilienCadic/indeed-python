@@ -1,0 +1,5 @@
+#!/bin/sh
+
+./build
+./docker
+docker run --rm --name indeed -it cadic/private:indeed
