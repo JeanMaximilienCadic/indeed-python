@@ -2,4 +2,4 @@
 
 ./build
 ./docker
-docker run --rm --name indeed -it cadic/private:indeed
+docker run --rm --name indeed -it indeed/private

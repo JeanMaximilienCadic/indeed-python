@@ -1,3 +1,6 @@
+model_path: "/FileStore/indeed/indeed.pkl"
+output_csv: "/FileStore/indeed/test_salaries.csv"
+
 features:
   cat   : ["companyId", "jobType", "degree", "major", "industry"]
   num   : ["yearsExperience", "milesFromMetropolis"]
@@ -7,24 +10,26 @@ features:
 etl:
   xtrain_csv  : "/FileStore/indeed/landing/train/train_features.csv"
   ytrain_csv  : "/FileStore/indeed/landing/train/train_salaries.csv"
-  output_csv  : "/FileStore/indeed/landing/gold/indeed_training_data.csv"
+  xtest_csv   : "/FileStore/indeed/landing/test/test_features.csv"
+  bronze_csv  : "/FileStore/indeed/bronze/indeed_data.csv"
+  gold_csv    : "/FileStore/indeed/gold/indeed_data.csv"
   x:
     mu:
-      companyId           : 31.027123
-      jobType             : 3.50532
-      degree              : 2.061605
-      major               : 2.581721
-      industry            : 2.998658
-      yearsExperience     : 11.992386
-      milesFromMetropolis : 49.52926
+      companyId           : 31.01350
+      jobType             : 3.50253
+      degree              : 2.06087
+      major               : 2.57819
+      industry            : 2.99925
+      yearsExperience     : 11.99724
+      milesFromMetropolis : 49.52784
     std:
-      companyId           : 18.20198897525415
-      jobType             : 2.2918099724874548
-      degree              : 1.4343423166430256
-      major               : 2.3988183408687767
-      industry            : 1.9995544996959191
-      yearsExperience     : 7.212390868885715
-      milesFromMetropolis : 28.877732628720043
+      companyId           : 18.19029
+      jobType             : 2.29183
+      degree              : 1.43470
+      major               : 2.39732
+      industry            : 2.00011
+      yearsExperience     : 7.21278
+      milesFromMetropolis : 28.88372
   y:
     mu  : 116.06182
     std : 38.71794

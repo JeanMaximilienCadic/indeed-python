@@ -9,21 +9,19 @@ setup(
     packages=[
         "indeed",
         "indeed.core",
+        "indeed.etl",
         "indeed.tests",
         "indeed.models",
     ],
     include_package_data=True,
     package_data={'': ['*.yml']},
-    url='https://cadic.jp',
     license='MIT',
-    author='CADIC Jean-Maximilien',
-    python_requires='>=3.8',
+    python_requires='>=3.9',
     install_requires=[r.rsplit()[0] for r in open("requirements.txt")],
-    author_email='me@cadic.jp',
     description='indeed',
     platforms="linux_debian_10_x86_64",
     classifiers=[
         "Programming Language :: Python :: 3",
-        "License :: OSI Approved :: CMJ License",
+        "License :: OSI Approved :: MIT License",
     ]
 )

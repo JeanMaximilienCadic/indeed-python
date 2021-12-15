@@ -5,3 +5,4 @@ sklearn
 fuzzywuzzy
 seaborn
 gnutools-python==2.2.0
+jupyter

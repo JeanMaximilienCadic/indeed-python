@@ -102,7 +102,13 @@ unzip indeed.zip
 cd indeed
 ```
 
-Run the exploration:
+1. Run the etl jobs:
+```shell
+python -m indeed.etl
+```
+
+
+2. Run the exploration:
 ```shell
 python -m indeed.core
 ```
@@ -126,6 +132,16 @@ Grid processing: 100%|███████████████████�
 
 ```
 
+3. Plot the results with the best hyperparameters on 100 random points:
+```shell
+python -m indeed.models
+```
+![Figure 1-1](imgs/figure.png)
+
+3. Inference on the test set:
+```shell
+python -m indeed
+```
 
 ### Docker
 ```shell

@@ -1,67 +1,68 @@
 import os.path
-
+from argparse import ArgumentParser
+from indeed.functional import normalize_features
 import pandas as pd
 from indeed import cfg
-from argparse import ArgumentParser
+
+def merge_data(xtrain_csv, xtest_csv, ytrain_csv, bronze_csv):
+    try:
+        assert os.path.exists(bronze_csv)
+    except:
+        xtrain_df, xtest_df = pd.read_csv(xtrain_csv), pd.read_csv(xtest_csv)
+        ytrain_df = pd.read_csv(ytrain_csv)
+        xtrain_df.set_index('jobId')
+        xtest_df.set_index('jobId')
+        ytrain_df.set_index('jobId')
+
+        xtrain_df = xtrain_df.merge(ytrain_df)
+        xtest_df[cfg.features.y] = None
+
+        xdf = pd.concat((xtrain_df, xtest_df))
+        xdf.to_csv(bronze_csv, index=False)
+    finally:
+        pd.read_csv(bronze_csv)
+
+
+def normalize_salaries(df):
+    mu, std = cfg.etl.y.mu,cfg.etl.y.std
+    df = (df-mu)/std
+    return df
 
 def etl(
-        xtrain_csv,
-        ytrain_csv,
-        output_csv,
-        cat_feat,
-        num_feat,
-        y_feat,
-        x_mu,
-        x_std,
-        y_mu,
-        y_std
+        bronze_csv,
+        gold_csv,
     ):
     try:
-        assert os.path.exists(output_csv)
+        assert os.path.exists(gold_csv)
     except AssertionError:
-        features = cat_feat + num_feat
+        features = cfg.features.cat + cfg.features.num
+        data = pd.read_csv(bronze_csv)
+        data[cfg.features.y] = normalize_salaries(data[cfg.features.y])
+        data[features] = normalize_features(data.filter(features))
+        data.to_csv(gold_csv, index=False)
+    finally:
+        pd.read_csv(gold_csv)
 
-        # Normalize X
-        xdf = pd.read_csv(xtrain_csv)
-        xdf = xdf.filter(features)
-        for c in cat_feat:
-            xdf[c] = pd.factorize(xdf[c])[0]
-
-        x_mu, x_std = list(vars(x_mu).values()), \
-                      list(vars(x_std).values())
-        xdf=(xdf-x_mu)/x_std
-
-        # Normalize Y
-        ydf = pd.read_csv(ytrain_csv)
-        ydf = ydf.filter(y_feat)
-        ydf=(ydf-y_mu)/y_std
-
-        # Concatenate
-        xdf[y_feat] = ydf[y_feat]
-        xdf.to_csv(output_csv, index=False)
 
 if __name__ == "__main__":
     parser = ArgumentParser()
     parser.add_argument("--xtrain_csv",
                         default=cfg.etl.xtrain_csv)
+    parser.add_argument("--xtest_csv",
+                        default=cfg.etl.xtest_csv)
     parser.add_argument("--ytrain_csv",
                         default=cfg.etl.ytrain_csv)
-    parser.add_argument("--cat_feat",
-                        default=cfg.features.cat)
-    parser.add_argument("--num_feat",
-                        default=cfg.features.num)
-    parser.add_argument("--y_feat",
-                        default=cfg.features.y)
-    parser.add_argument("--x_mu",
-                        default=cfg.etl.y.mu)
-    parser.add_argument("--x_std",
-                        default=cfg.etl.y.std)
-    parser.add_argument("--y_mu",
-                        default=cfg.etl.y.mu)
-    parser.add_argument("--y_std",
-                        default=cfg.etl.y.std)
-    parser.add_argument("--output_csv",
-                        default=cfg.etl.output_csv)
+    parser.add_argument("--bronze_csv",
+                        default=cfg.etl.bronze_csv)
+    parser.add_argument("--gold_csv",
+                        default=cfg.etl.gold_csv)
+
     args = parser.parse_args()
 
-    etl(**vars(args))
+    merge_data(args.xtrain_csv,
+               args.xtest_csv,
+               args.ytrain_csv,
+               args.bronze_csv)
+    etl(args.bronze_csv,
+        args.gold_csv,
+        )
